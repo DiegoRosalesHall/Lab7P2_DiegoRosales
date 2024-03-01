@@ -54,7 +54,7 @@ public class Main extends javax.swing.JFrame {
 
         jtb_productos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null}
             },
             new String [] {
                 "ID", "Name", "Category", "Price", "Aisle", "Bin"

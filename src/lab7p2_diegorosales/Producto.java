@@ -9,7 +9,7 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(int id, int aisle, int category, int bin, String name, double price) {
+    public Producto(int id, int aisle, int category, int bin, String name, double price) throws DiegoException{
         this.id = id;
         this.aisle = aisle;
         this.category = category;
@@ -30,24 +30,39 @@ public class Producto {
         return aisle;
     }
 
-    public void setAisle(int aisle) {
+    public void setAisle(int aisle) throws DiegoException{
+        if(aisle>=100 && aisle<1000){
         this.aisle = aisle;
+        }
+        else{
+            throw new DiegoException();
+        }
     }
 
     public int getCategory() {
         return category;
     }
 
-    public void setCategory(int category) {
+    public void setCategory(int category) throws DiegoException {
+        if(category>=0 && category<10){
         this.category = category;
+        }
+        else{
+            throw new DiegoException();
+        }
     }
 
     public int getBin() {
         return bin;
     }
 
-    public void setBin(int bin) {
+    public void setBin(int bin) throws DiegoException{
+        if(bin>=100 && bin<1000){
         this.bin = bin;
+        }
+        else{
+            throw new DiegoException();
+        }
     }
 
     public String getName() {
