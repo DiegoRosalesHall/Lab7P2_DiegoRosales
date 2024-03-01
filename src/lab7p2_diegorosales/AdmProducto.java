@@ -50,35 +50,7 @@ public class AdmProducto {
                             sc.nextDouble(),
                             sc.nextInt(),
                             sc.nextInt()
-                         
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                    
-                            
-                                    
+              
                     )
                     );
                 }
@@ -86,7 +58,7 @@ public class AdmProducto {
                 ex.printStackTrace();
             }
         }
-    }
+    }                                         
     
    public void escribirArchivo() throws IOException {
         FileWriter fw = null;

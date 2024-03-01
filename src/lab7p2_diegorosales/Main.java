@@ -8,7 +8,17 @@ import javax.swing.table.DefaultTableModel;
 
 
 public class Main extends javax.swing.JFrame {
+    
+    
     AdmProducto adm = new AdmProducto();
+    
+public File crearArchivo (String [] com) {
+        File folder = new File("./CSV","/"+com[1]);
+        
+        return folder;
+    }
+                  
+                  
     public void verificarCMD(){
         ArrayList<String> comandosvalidos = new ArrayList<>();
         comandosvalidos.add("./load");
@@ -51,12 +61,22 @@ public class Main extends javax.swing.JFrame {
                }
                
            } // ./ LOAD
+           
            else if(comando[0].equals(comandosvalidos.get(1))){
+               
+  
                tf_command.setText("");
            } // ./ CREATE
            
            else if(comando[0].equals(comandosvalidos.get(2))){
-               jtb_productos.removeAll();
+               DefaultTableModel model = (DefaultTableModel) jtb_productos.getModel();
+               
+             
+               model.setNumRows(0);
+               model.setNumRows(1);
+               
+               
+               jtb_productos.setModel(model);
                JOptionPane.showMessageDialog(this, "La tabla se ha vaciado!");
                tf_command.setText("");
            } // ./ CLEAR
@@ -70,6 +90,7 @@ public class Main extends javax.swing.JFrame {
     }
    
     public Main() {
+        
         initComponents();
     }
 
