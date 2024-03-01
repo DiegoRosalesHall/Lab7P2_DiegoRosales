@@ -36,11 +36,11 @@ public class AdmProducto {
     }
     
     public void cargarArchivo(){
-        Scanner sc = null;
+        
         productos = new ArrayList<>();
         if(archivo.exists()){
             try {
-                sc = new Scanner(archivo);
+                Scanner sc = new Scanner(archivo);
                 sc.useDelimiter(",");
                 while (sc.hasNext()) {
                     productos.add(new Producto(
@@ -54,8 +54,10 @@ public class AdmProducto {
                     )
                     );
                 }
+                sc.close();
             } catch (Exception ex) {
-                ex.printStackTrace();
+          
+                
             }
         }
     }                                         

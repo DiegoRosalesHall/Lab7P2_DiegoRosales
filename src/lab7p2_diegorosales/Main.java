@@ -5,6 +5,8 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 
 public class Main extends javax.swing.JFrame {
@@ -12,13 +14,6 @@ public class Main extends javax.swing.JFrame {
     
     AdmProducto adm = new AdmProducto();
     
-public File crearArchivo (String [] com) {
-        File folder = new File("./CSV","/"+com[1]);
-        
-        return folder;
-    }
-                  
-                  
     public void verificarCMD(){
         ArrayList<String> comandosvalidos = new ArrayList<>();
         comandosvalidos.add("./load");
@@ -57,7 +52,17 @@ public File crearArchivo (String [] com) {
                        model.addRow(r);
                    }
                     jtb_productos.setModel(model);
-               tf_command.setText("");
+                    
+                    DefaultTreeModel treemodel = (DefaultTreeModel) jt_csv.getModel();
+                    DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) treemodel.getRoot();
+                    
+                   
+                    raiz.add(new DefaultMutableTreeNode(archivo));
+                    treemodel.reload();
+                 
+                    
+                    jt_csv.setModel(treemodel);
+                    tf_command.setText("");
                }
                
            } // ./ LOAD
@@ -84,6 +89,7 @@ public File crearArchivo (String [] com) {
             else if(comando[0].equals(comandosvalidos.get(3))){
               JOptionPane.showMessageDialog(this, "El arbol se ha actualizado!");
                tf_command.setText("");
+               
            } // ./ REFRESH
         }
           
@@ -103,11 +109,14 @@ public File crearArchivo (String [] com) {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenu8 = new javax.swing.JMenu();
+        jMenu9 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
         tf_command = new javax.swing.JTextField();
         bt_enter = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        jt_csv = new javax.swing.JTree();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtb_productos = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -118,6 +127,12 @@ public File crearArchivo (String [] com) {
         jMenu6 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
+
+        jMenu8.setText("Load");
+        jPopupMenu1.add(jMenu8);
+
+        jMenu9.setText("Refresh Trees");
+        jPopupMenu1.add(jMenu9);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -137,8 +152,13 @@ public File crearArchivo (String [] com) {
         });
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Archivos CSV");
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jScrollPane1.setViewportView(jTree1);
+        jt_csv.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jt_csv.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_csvMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jt_csv);
 
         jtb_productos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -229,9 +249,19 @@ public File crearArchivo (String [] com) {
         verificarCMD();
     }//GEN-LAST:event_bt_enterMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jt_csvMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_csvMouseClicked
+       
+        if(evt.getButton()==3){
+        if(jt_csv.getSelectionPath().getLastPathComponent() instanceof Producto){
+        
+            jPopupMenu1.show(this, evt.getX(), evt.getY());
+        }
+        else{
+            
+        }
+        }
+    }//GEN-LAST:event_jt_csvMouseClicked
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -273,11 +303,14 @@ public File crearArchivo (String [] com) {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTree jTree1;
+    private javax.swing.JTree jt_csv;
     private javax.swing.JTable jtb_productos;
     private javax.swing.JTextField tf_command;
     // End of variables declaration//GEN-END:variables
