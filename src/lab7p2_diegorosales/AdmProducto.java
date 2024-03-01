@@ -75,9 +75,12 @@ public class AdmProducto {
             }
             bw.flush();
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
         bw.close();
         fw.close();
     }
+   
+   
     
 }

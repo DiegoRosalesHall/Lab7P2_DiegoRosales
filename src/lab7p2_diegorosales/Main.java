@@ -1,12 +1,62 @@
 
 package lab7p2_diegorosales;
 
+import java.io.File;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 
 public class Main extends javax.swing.JFrame {
-
-    /**
-     * Creates new form Main
-     */
+    public void verificarCMD(){
+        ArrayList<String> comandosvalidos = new ArrayList<>();
+        comandosvalidos.add("./load");
+        comandosvalidos.add("./create");
+        comandosvalidos.add("./clear");
+        comandosvalidos.add("./refresh");
+        int ind;
+        String [] comando = tf_command.getText().split(" ");
+        boolean valid = false;
+        for (int i = 0; i < comandosvalidos.size(); i++) {
+            if(comandosvalidos.get(i).equals(comando[0])){
+            valid=true;
+            ind=i;
+            }
+            else{
+                
+            }
+        }
+        if (valid==false){
+            JOptionPane.showMessageDialog(this, "Error, comando invalido");
+            
+        }
+        else{
+           if(comando[0].equals(comandosvalidos.get(0))){
+               File archivo = null;
+               archivo = new File("./"+comando[2]);
+               if(!archivo.exists()){
+                   JOptionPane.showMessageDialog(this, "Error, el archivo no existe");
+               }
+               tf_command.setText("");
+               
+           } // ./ LOAD
+           else if(comando[0].equals(comandosvalidos.get(1))){
+               tf_command.setText("");
+           } // ./ CREATE
+           
+           else if(comando[0].equals(comandosvalidos.get(2))){
+               jtb_productos.removeAll();
+               JOptionPane.showMessageDialog(this, "La tabla se ha vaciado!");
+               tf_command.setText("");
+           } // ./ CLEAR
+            
+            else if(comando[0].equals(comandosvalidos.get(3))){
+              JOptionPane.showMessageDialog(this, "El arbol se ha actualizado!");
+               tf_command.setText("");
+           } // ./ REFRESH
+        }
+          
+    }
+   
     public Main() {
         initComponents();
     }
@@ -47,6 +97,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         bt_enter.setText("Enter");
+        bt_enter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_enterMouseClicked(evt);
+            }
+        });
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Archivos CSV");
         jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
@@ -136,6 +191,10 @@ public class Main extends javax.swing.JFrame {
     private void tf_commandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_commandActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tf_commandActionPerformed
+
+    private void bt_enterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_enterMouseClicked
+        verificarCMD();
+    }//GEN-LAST:event_bt_enterMouseClicked
 
     /**
      * @param args the command line arguments
