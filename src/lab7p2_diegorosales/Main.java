@@ -4,9 +4,11 @@ package lab7p2_diegorosales;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 
 public class Main extends javax.swing.JFrame {
+    AdmProducto adm = new AdmProducto();
     public void verificarCMD(){
         ArrayList<String> comandosvalidos = new ArrayList<>();
         comandosvalidos.add("./load");
@@ -31,12 +33,22 @@ public class Main extends javax.swing.JFrame {
         }
         else{
            if(comando[0].equals(comandosvalidos.get(0))){
-               File archivo = null;
-               archivo = new File("./"+comando[2]);
+               JOptionPane.showMessageDialog(this, comando[1]);
+               File archivo = new File("./CSV/"+comando[1]);
                if(!archivo.exists()){
                    JOptionPane.showMessageDialog(this, "Error, el archivo no existe");
                }
+               else{
+                   adm = new AdmProducto("./CSV/"+comando[1]);
+                   adm.cargarArchivo();
+                   DefaultTableModel model = (DefaultTableModel) jtb_productos.getModel();
+                   for (Producto p : adm.getProductos()) {
+                       Object [] r = { p.getId(), p.getName(),p.getCategory(),p.getPrice(),p.getAisle(),p.getBin()};
+                       model.addRow(r);
+                   }
+                    jtb_productos.setModel(model);
                tf_command.setText("");
+               }
                
            } // ./ LOAD
            else if(comando[0].equals(comandosvalidos.get(1))){

@@ -9,7 +9,7 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(int id, int aisle, int category, int bin, String name, double price) throws DiegoException{
+    public Producto(int id, String name, int category, double price, int aisle, int bin) throws DiegoException{
         this.id = id;
         this.aisle = aisle;
         this.category = category;

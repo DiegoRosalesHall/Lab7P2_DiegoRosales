@@ -43,13 +43,43 @@ public class AdmProducto {
                 sc = new Scanner(archivo);
                 sc.useDelimiter(",");
                 while (sc.hasNext()) {
-                    productos.add(new Producto(sc.nextInt(),
-                                    sc.nextInt(),
-                                    sc.nextInt(),
+                    productos.add(new Producto(
                             sc.nextInt(),
                             sc.next(),
-                            sc.nextDouble()
-                                 ) 
+                            sc.nextInt(),
+                            sc.nextDouble(),
+                            sc.nextInt(),
+                            sc.nextInt()
+                         
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                    
+                            
+                                    
+                    )
                     );
                 }
             } catch (Exception ex) {
@@ -80,7 +110,6 @@ public class AdmProducto {
         bw.close();
         fw.close();
     }
-   
    
     
 }
