@@ -37,15 +37,21 @@
                 <Property name="text" type="java.lang.String" value="Clear"/>
               </Properties>
               <SubComponents>
-                <Menu class="javax.swing.JMenu" name="jMenu5">
+                <Menu class="javax.swing.JMenu" name="menu_clearcmd">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Clear Command Line"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_clearcmdActionPerformed"/>
+                  </Events>
                 </Menu>
-                <Menu class="javax.swing.JMenu" name="jMenu6">
+                <Menu class="javax.swing.JMenu" name="menu_clear">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Clear Table"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_clearActionPerformed"/>
+                  </Events>
                 </Menu>
               </SubComponents>
             </Menu>

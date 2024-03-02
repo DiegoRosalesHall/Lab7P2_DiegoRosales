@@ -13,7 +13,21 @@ public class Main extends javax.swing.JFrame {
     
     
     AdmProducto adm = new AdmProducto();
-    
+    public void clearcmd(){
+        tf_command.setText("");
+    }
+    public void clear(){
+        DefaultTableModel model = (DefaultTableModel) jtb_productos.getModel();
+               
+             
+               model.setNumRows(0);
+               model.setNumRows(1);
+               
+               
+               jtb_productos.setModel(model);
+               JOptionPane.showMessageDialog(this, "La tabla se ha vaciado!");
+               tf_command.setText("");
+    }
     public void verificarCMD(){
         ArrayList<String> comandosvalidos = new ArrayList<>();
         comandosvalidos.add("./load");
@@ -68,22 +82,19 @@ public class Main extends javax.swing.JFrame {
            } // ./ LOAD
            
            else if(comando[0].equals(comandosvalidos.get(1))){
-               
+               if(!comando[2].equals("-single")){
+                   JOptionPane.showMessageDialog(this, "Error sintactico");
+               }
+               else{
+                   JOptionPane.showMessageDialog(this, jtb_productos.getRowCount());
+                   JOptionPane.showMessageDialog(this, jtb_productos.getColumnCount());
   
                tf_command.setText("");
+               }
            } // ./ CREATE
            
            else if(comando[0].equals(comandosvalidos.get(2))){
-               DefaultTableModel model = (DefaultTableModel) jtb_productos.getModel();
-               
-             
-               model.setNumRows(0);
-               model.setNumRows(1);
-               
-               
-               jtb_productos.setModel(model);
-               JOptionPane.showMessageDialog(this, "La tabla se ha vaciado!");
-               tf_command.setText("");
+               clear();
            } // ./ CLEAR
             
             else if(comando[0].equals(comandosvalidos.get(3))){
@@ -123,8 +134,8 @@ public class Main extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
-        jMenu6 = new javax.swing.JMenu();
+        menu_clearcmd = new javax.swing.JMenu();
+        menu_clear = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
 
@@ -209,11 +220,21 @@ public class Main extends javax.swing.JFrame {
 
         jMenu4.setText("Clear");
 
-        jMenu5.setText("Clear Command Line");
-        jMenu4.add(jMenu5);
+        menu_clearcmd.setText("Clear Command Line");
+        menu_clearcmd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_clearcmdActionPerformed(evt);
+            }
+        });
+        jMenu4.add(menu_clearcmd);
 
-        jMenu6.setText("Clear Table");
-        jMenu4.add(jMenu6);
+        menu_clear.setText("Clear Table");
+        menu_clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_clearActionPerformed(evt);
+            }
+        });
+        jMenu4.add(menu_clear);
 
         jMenu2.add(jMenu4);
 
@@ -251,7 +272,7 @@ public class Main extends javax.swing.JFrame {
 
     private void jt_csvMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_csvMouseClicked
        
-        if(evt.getButton()==3){
+         /* if(evt.getButton()==3){
         if(jt_csv.getSelectionPath().getLastPathComponent() instanceof Producto){
         
             jPopupMenu1.show(this, evt.getX(), evt.getY());
@@ -259,8 +280,16 @@ public class Main extends javax.swing.JFrame {
         else{
             
         }
-        }
+        } */
     }//GEN-LAST:event_jt_csvMouseClicked
+
+    private void menu_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_clearActionPerformed
+        clear();
+    }//GEN-LAST:event_menu_clearActionPerformed
+
+    private void menu_clearcmdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_clearcmdActionPerformed
+        clearcmd();
+    }//GEN-LAST:event_menu_clearcmdActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -300,8 +329,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenu jMenu9;
@@ -312,6 +339,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTree jt_csv;
     private javax.swing.JTable jtb_productos;
+    private javax.swing.JMenu menu_clear;
+    private javax.swing.JMenu menu_clearcmd;
     private javax.swing.JTextField tf_command;
     // End of variables declaration//GEN-END:variables
 }
