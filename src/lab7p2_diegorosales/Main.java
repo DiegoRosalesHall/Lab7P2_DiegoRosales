@@ -1,8 +1,13 @@
 
 package lab7p2_diegorosales;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -28,7 +33,7 @@ public class Main extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(this, "La tabla se ha vaciado!");
                tf_command.setText("");
     }
-    public void verificarCMD(){
+    public void verificarCMD() throws DiegoException{
         ArrayList<String> comandosvalidos = new ArrayList<>();
         comandosvalidos.add("./load");
         comandosvalidos.add("./create");
@@ -85,10 +90,55 @@ public class Main extends javax.swing.JFrame {
                if(!comando[2].equals("-single")){
                    JOptionPane.showMessageDialog(this, "Error sintactico");
                }
-               else{
-                   JOptionPane.showMessageDialog(this, jtb_productos.getRowCount());
-                   JOptionPane.showMessageDialog(this, jtb_productos.getColumnCount());
-  
+               else
+               {
+                   int rows = jtb_productos.getRowCount();
+                   Producto p = new Producto();
+                   FileWriter fw = null;
+                   BufferedWriter bw =null;
+                   
+                   File arch = new File("./CSV/"+comando[1]);
+                   boolean flag=false;
+                   for (int i = 0; i < jtb_productos.getRowCount(); i++) {
+                       for (int j = 0; j < jtb_productos.getColumnCount(); j++) {
+                           if(jtb_productos.getValueAt(i, j)==null){
+                           flag=true;
+                           }
+                       }
+                   }
+                   if(flag){
+                       JOptionPane.showMessageDialog(this, "no puede crearse porque hay un parametro vacio");
+                   }
+                   try{
+                       fw = new FileWriter(arch, false);
+                            bw = new BufferedWriter(fw);
+                        for (int i = 0; i < rows; i++) {
+                       
+                           bw.write((int) jtb_productos.getValueAt(rows, 1)+",");
+                           bw.write((String) jtb_productos.getValueAt(rows, 2)+",");
+                           bw.write((int) jtb_productos.getValueAt(rows, 3)+",");
+                           bw.write((int) (double) jtb_productos.getValueAt(rows, 4)+",");
+                           bw.write((int) jtb_productos.getValueAt(rows, 5)+",");
+                           bw.write((int) jtb_productos.getValueAt(rows, 6)+",");
+                       
+                   }
+                        
+                        DefaultTreeModel treemodel = (DefaultTreeModel) jt_csv.getModel();
+                    DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) treemodel.getRoot();
+                    
+                   
+                    raiz.add(new DefaultMutableTreeNode(arch));
+                    treemodel.reload();
+                 
+                    
+                    jt_csv.setModel(treemodel);
+                   }
+                   catch(Exception e){
+                       
+                   }
+                  
+                  
+                   
                tf_command.setText("");
                }
            } // ./ CREATE
@@ -267,7 +317,11 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_tf_commandActionPerformed
 
     private void bt_enterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_enterMouseClicked
-        verificarCMD();
+        try {
+            verificarCMD();
+        } catch (DiegoException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_bt_enterMouseClicked
 
     private void jt_csvMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_csvMouseClicked
