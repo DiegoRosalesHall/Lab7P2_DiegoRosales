@@ -3,7 +3,6 @@ package lab7p2_diegorosales;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +18,20 @@ public class Main extends javax.swing.JFrame {
     
     
     AdmProducto adm = new AdmProducto();
+    
+    public void refresh(){
+        DefaultTreeModel model = (DefaultTreeModel) jt_csv.getModel();
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) model.getRoot();
+        File a = new File("./CSV/");
+        for (File f : a.listFiles()) {
+            if(f.isFile()){
+                DefaultMutableTreeNode node = new DefaultMutableTreeNode(f.getName());
+                raiz.add(node);
+        }
+        model.reload();
+        jt_csv.setModel(model);
+    }
+    }
     public void clearcmd(){
         tf_command.setText("");
     }
@@ -322,6 +335,11 @@ public class Main extends javax.swing.JFrame {
         jMenu2.add(jMenu4);
 
         jMenu7.setText("Refresh Tree");
+        jMenu7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu7ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenu7);
 
         jMenuBar1.add(jMenu2);
@@ -379,6 +397,10 @@ public class Main extends javax.swing.JFrame {
     private void menu_clearcmdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_clearcmdActionPerformed
         clearcmd();
     }//GEN-LAST:event_menu_clearcmdActionPerformed
+
+    private void jMenu7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu7ActionPerformed
+        refresh();
+    }//GEN-LAST:event_jMenu7ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
