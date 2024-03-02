@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +34,7 @@ public class Main extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(this, "La tabla se ha vaciado!");
                tf_command.setText("");
     }
-    public void verificarCMD() throws DiegoException{
+    public void verificarCMD() throws DiegoException, IOException{
         ArrayList<String> comandosvalidos = new ArrayList<>();
         comandosvalidos.add("./load");
         comandosvalidos.add("./create");
@@ -87,7 +88,7 @@ public class Main extends javax.swing.JFrame {
            } // ./ LOAD
            
            else if(comando[0].equals(comandosvalidos.get(1))){
-               if(!comando[2].equals("-single")){
+               if(!comando[2].equals("-single") || !comando[1].contains(".txt")){
                    JOptionPane.showMessageDialog(this, "Error sintactico");
                }
                else
@@ -99,48 +100,71 @@ public class Main extends javax.swing.JFrame {
                    
                    File arch = new File("./CSV/"+comando[1]);
                    boolean flag=false;
+                   int cont=0;
                    for (int i = 0; i < jtb_productos.getRowCount(); i++) {
                        for (int j = 0; j < jtb_productos.getColumnCount(); j++) {
                            if(jtb_productos.getValueAt(i, j)==null){
+                               cont++;
                            flag=true;
                            }
+                           if(cont==6){
+                               flag=false;
+                               cont=0;
+                           }
+                           
                        }
+                       cont=5;
                    }
-                   if(flag){
+                   if(flag==true){
                        JOptionPane.showMessageDialog(this, "no puede crearse porque hay un parametro vacio");
                    }
+                   else{
                    try{
-                       fw = new FileWriter(arch, false);
+                       fw = new FileWriter(arch, true);
                             bw = new BufferedWriter(fw);
+                            int connt=0;
                         for (int i = 0; i < rows; i++) {
-                       
-                           bw.write((int) jtb_productos.getValueAt(rows, 1)+",");
-                           bw.write((String) jtb_productos.getValueAt(rows, 2)+",");
-                           bw.write((int) jtb_productos.getValueAt(rows, 3)+",");
-                           bw.write((int) (double) jtb_productos.getValueAt(rows, 4)+",");
-                           bw.write((int) jtb_productos.getValueAt(rows, 5)+",");
-                           bw.write((int) jtb_productos.getValueAt(rows, 6)+",");
+                            
+                            for (int j = 0; j < jtb_productos.getColumnCount(); j++) {
+                                if(jtb_productos.getValueAt(i, j)==null){
+                                    connt++;
+                                }
+                                if(j==5 && connt==6){
+                                  continue;  
+                                }
+                                else if(j==5 && connt <6){
+                                     bw.write( jtb_productos.getValueAt(i, 0)+",");
+                           bw.write(jtb_productos.getValueAt(i, 1)+",");
+                           bw.write( jtb_productos.getValueAt(i, 2)+",");
+                           bw.write(jtb_productos.getValueAt(i, 3)+",");
+                           bw.write( jtb_productos.getValueAt(i, 4)+",");
+                           bw.write( jtb_productos.getValueAt(i, 5)+","); 
+                                }
+                            }
+                         
                        
                    }
                         
-                        DefaultTreeModel treemodel = (DefaultTreeModel) jt_csv.getModel();
-                    DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) treemodel.getRoot();
-                    
                    
-                    raiz.add(new DefaultMutableTreeNode(arch));
-                    treemodel.reload();
-                 
-                    
-                    jt_csv.setModel(treemodel);
                    }
+                   
+                   
                    catch(Exception e){
                        
                    }
+                   bw.close();
+        fw.close();
+                    DefaultTreeModel treemodel = (DefaultTreeModel) jt_csv.getModel();
+                    DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) treemodel.getRoot();
+                    raiz.add(new DefaultMutableTreeNode(arch));
+                    treemodel.reload();
+                    jt_csv.setModel(treemodel);
                   
-                  
+                  JOptionPane.showMessageDialog(this, "Has creado con exito!");
                    
                tf_command.setText("");
                }
+               }   
            } // ./ CREATE
            
            else if(comando[0].equals(comandosvalidos.get(2))){
@@ -223,6 +247,15 @@ public class Main extends javax.swing.JFrame {
 
         jtb_productos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
                 {null, null, null, null, null, null}
             },
             new String [] {
@@ -320,6 +353,8 @@ public class Main extends javax.swing.JFrame {
         try {
             verificarCMD();
         } catch (DiegoException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bt_enterMouseClicked
